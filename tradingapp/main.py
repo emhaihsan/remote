@@ -1,8 +1,7 @@
-# trading_app.py
+# trading_app_no_talib.py
 import yfinance as yf
 import pandas as pd
 import numpy as np
-import talib
 import streamlit as st
 import matplotlib.pyplot as plt
 
@@ -11,16 +10,16 @@ def fetch_data(symbol, period='1y'):
     stock_data = yf.download(symbol, period=period)
     return stock_data
 
-# Calculate moving averages using TA-Lib
+# Calculate moving averages manually using pandas
 def calculate_moving_averages(df, short_window, long_window):
-    df['short_ma'] = talib.SMA(df['Close'], timeperiod=short_window)
-    df['long_ma'] = talib.SMA(df['Close'], timeperiod=long_window)
+    df['short_ma'] = df['Close'].rolling(window=short_window).mean()
+    df['long_ma'] = df['Close'].rolling(window=long_window).mean()
     return df
 
 # Generate signals
 def generate_signals(df):
     df['signal'] = 0
-    df['signal'][20:] = np.where(df['short_ma'][20:] > df['long_ma'][20:], 1, 0)
+    df['signal'][short_window:] = np.where(df['short_ma'][short_window:] > df['long_ma'][short_window:], 1, 0)
     df['position'] = df['signal'].diff()
     return df
 
@@ -61,10 +60,10 @@ def plot_signals(df):
     st.pyplot(fig)
 
 # Streamlit UI
-st.title("Simple Trading Algorithm")
+st.title("Simple Trading App")
 
 # Stock selection
-stock_options = ["TSLA", "NVDA", "GOOGL", "AMZN"]
+stock_options = ["AAPL","TSLA", "NVDA", "GOOGL", "AMZN"]
 user_input = st.selectbox("Select Stock Symbol", stock_options)
 
 # Period selection
