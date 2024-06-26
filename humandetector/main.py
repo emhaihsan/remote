@@ -5,14 +5,15 @@ import numpy as np
 import kagglehub
 
 # IF YOU DO NOT HAVE MODEL ON LOCAL, UNCOMMENT BELOW
-# # Download latest version
-# path = kagglehub.model_download("tensorflow/ssd-mobilenet-v2/tensorFlow2/fpnlite-320x320")
-# # Load the pre-trained SSD MobileNet V2 model from TensorFlow Hub
-# model = tf.saved_model.load(path)
-# tf.saved_model.save(model, "ssd_mobilenet_v2_fpnlite_320x320")
+# Download latest version
+path = kagglehub.model_download("tensorflow/ssd-mobilenet-v2/tensorFlow2/fpnlite-320x320")
+# Load the pre-trained SSD MobileNet V2 model from TensorFlow Hub
+model = tf.saved_model.load(path)
+tf.saved_model.save(model, "ssd_mobilenet_v2_fpnlite_320x320")
 # Function to preprocess the image
 
-model = tf.saved_model.load("ssd_mobilenet_v2_fpnlite_320x320") # Use this if you already downloaded the model on your local
+# Use this if you already downloaded the model on your local
+model = tf.saved_model.load("ssd_mobilenet_v2_fpnlite_320x320") 
 
 def preprocess_image(image):
     image = image.resize((320, 320))
