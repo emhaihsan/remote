@@ -1,4 +1,4 @@
-python==3.10.13
-tensorflow==2.11.0
-kagglehub==0.2.5
-numpy==1.26.4
+python
+tensorflow
+kagglehub
+numpy
